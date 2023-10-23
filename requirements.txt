@@ -1,0 +1,14 @@
+codecarbon
+mlflow
+torch==2.1.0
+torchvision==0.16.0
+tornado==6.3.3
+psutil==5.9.5
+ptyprocess==0.7.0
+pure-eval==0.2.2
+py-cpuinfo==9.0.0
+pyarrow==13.0.0
+Pygments==2.16.1
+PyJWT==2.8.0
+pynvml==11.5.0
+pyparsing==3.1.1

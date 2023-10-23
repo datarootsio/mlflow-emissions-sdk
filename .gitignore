@@ -1,0 +1,7 @@
+dist
+/mlflow_emissions_sdk.egg-info
+examples/mlruns
+examples/emissions.csv
+examples/data
+venv
+.vscode
