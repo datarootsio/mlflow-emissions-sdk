@@ -11,6 +11,7 @@ class EmissionsTrackerMlflow:
     tracking_uri=""
     run_id=""
     exp_id=""
+    flavor=""
     emissions=0
     emissions_tracker = None
     device = None
@@ -70,7 +71,7 @@ class EmissionsTrackerMlflow:
     # Retrieve the class label
         return preds[0].item()
 
-    def end_training_job(self, model):
+    def end_training_job(self):
         client = MlflowClient(tracking_uri=self.experiment_tracking_params['tracking_uri'])
         emissions = self.emissions_tracker.stop()
         
@@ -99,7 +100,16 @@ class EmissionsTrackerMlflow:
         if self.model_acc == None:
             self.evaluate_model_accuracy(model, test_data)
         acc_per_emission = (self.model_acc * 100) / (self.emissions * 1000)
-        client.log_metric(self.run_id, "Accuracy_per_emission", acc_per_emission)
+        client.log_metric(self.run_id, "accuracy_per_emission", acc_per_emission)
+
+    def emission_per_10_inferences(self, model, test_data):
+        client = MlflowClient(tracking_uri=self.experiment_tracking_params['tracking_uri'])
+        self.emissions_tracker.start()
+        for i in range(10):
+            self.predict_image(test_data[i][0], model)
+        emissions_per_10 = self.emissions_tracker.stop()
+        client.log_metric(self.run_id, "emissions_per_10_predictions", emissions_per_10)
+
         
 
 
