@@ -3,6 +3,7 @@ from codecarbon import EmissionsTracker
 
 
 import mlflow
+import mlflow.keras
 import torch
 
 
@@ -30,6 +31,8 @@ class EmissionsTrackerMlflow:
         run_id = dict(client.create_run(exp_id, run_name=self.experiment_tracking_params['run_name'] ))
         self.run_id = dict(run_id['info'])['run_id']
         mlflow.start_run(self.run_id, exp_id)
+        if self.flavor == 'keras':
+            mlflow.keras.autolog()
     
     
 
@@ -97,6 +100,7 @@ class EmissionsTrackerMlflow:
             return model_acc
         elif self.flavor == 'keras':
             accuracy = model.evaluate(test_data)[1]
+            self.model_acc = accuracy
             client.log_metric(self.run_id,"Model Accuracy", accuracy * 100)
             return accuracy
         else:
