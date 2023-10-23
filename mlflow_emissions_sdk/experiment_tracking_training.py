@@ -26,6 +26,7 @@ class EmissionsTrackerMlflow:
         mlflow.set_tracking_uri(self.experiment_tracking_params['tracking_uri'])
         exp_id = dict(mlflow.set_experiment(self.experiment_tracking_params['experiment_name']))['experiment_id']
         self.exp_id = exp_id
+        self.flavor = experiment_tracking_params['flavor']
         run_id = dict(client.create_run(exp_id, run_name=self.experiment_tracking_params['run_name'] ))
         self.run_id = dict(run_id['info'])['run_id']
         mlflow.start_run(self.run_id, exp_id)
@@ -83,16 +84,23 @@ class EmissionsTrackerMlflow:
         
     def evaluate_model_accuracy(self, model, test_data):
         client = MlflowClient(tracking_uri=self.experiment_tracking_params['tracking_uri'])
-        total_data_count = len(test_data)
-        correctly_predicted = 0
-        for testd, res in test_data:
-            predicted_val = self.predict_image(testd, model)
-            if predicted_val == res:
-                correctly_predicted += 1
-        model_acc = correctly_predicted / total_data_count
-        self.model_acc = model_acc
-        client.log_metric(self.run_id,"Model Accuracy", model_acc * 100)
-        return model_acc
+        if self.flavor == 'pytorch':
+            total_data_count = len(test_data)
+            correctly_predicted = 0
+            for testd, res in test_data:
+                predicted_val = self.predict_image(testd, model)
+                if predicted_val == res:
+                    correctly_predicted += 1
+            model_acc = correctly_predicted / total_data_count
+            self.model_acc = model_acc
+            client.log_metric(self.run_id,"Model Accuracy", model_acc * 100)
+            return model_acc
+        elif self.flavor == 'keras':
+            accuracy = model.evaluate(test_data)[1]
+            client.log_metric(self.run_id,"Model Accuracy", accuracy * 100)
+            return accuracy
+        else:
+            raise "Not supported"
 
 
     def accuracy_per_emission(self, model, test_data):
@@ -104,11 +112,22 @@ class EmissionsTrackerMlflow:
 
     def emission_per_10_inferences(self, model, test_data):
         client = MlflowClient(tracking_uri=self.experiment_tracking_params['tracking_uri'])
-        self.emissions_tracker.start()
-        for i in range(10):
-            self.predict_image(test_data[i][0], model)
-        emissions_per_10 = self.emissions_tracker.stop()
-        client.log_metric(self.run_id, "emissions_per_10_predictions", emissions_per_10)
+        if self.flavor == 'pytorch':
+            self.emissions_tracker.start()
+            for i in range(10):
+                self.predict_image(test_data[i][0], model)
+            emissions_per_10 = self.emissions_tracker.stop()
+            client.log_metric(self.run_id, "emissions_per_10_predictions", emissions_per_10 * 1000)
+        elif self.flavor == 'keras':
+            self.emissions_tracker.start()
+
+            model.predict(test_data.take(10))
+
+            emissions_per_10 = self.emissions_tracker.stop()
+            client.log_metric(self.run_id, "emissions_per_10_predictions", emissions_per_10 * 1000)
+
+    
+    
 
         
 

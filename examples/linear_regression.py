@@ -10,7 +10,8 @@ from mlflow_emissions_sdk.experiment_tracking_training import EmissionsTrackerMl
 
 tracker_info = {
     "tracking_uri" : "http://127.0.0.1:5000",
-    "experiment_name": "test_name"
+    "experiment_name": "test_name",
+    "run_name": "test_run"
 }
 # prepare training data
 X = np.array([[1, 1], [1, 2], [2, 2], [2, 3]])
