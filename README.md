@@ -53,6 +53,7 @@ runner.read_params(tracker_info)
 # Starts the emissions tracking
 runner.start_training_job()
 
+# Training the model
 history = model.fit(X, y)
 
 # Ends the tracking
