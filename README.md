@@ -43,7 +43,7 @@ tracker_info = {
 X = np.array([[1, 1], [1, 2], [2, 2], [2, 3]])
 y = np.dot(X, np.array([1, 2])) + 3
 
-# Train a model
+# Pick a model
 model = LinearRegression()
 
 # Instatiates the tracker
