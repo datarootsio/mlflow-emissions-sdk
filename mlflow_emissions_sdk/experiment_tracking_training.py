@@ -55,6 +55,8 @@ class EmissionsTrackerMlflow:
                 mlflow.keras.autolog()
             elif self.flavor == 'pytorch':
                 mlflow.pytorch.autolog()
+            elif self.flavor == 'sklearn':
+                mlflow.sklearn.autolog()
         except:
             print("Please refer to a running instance of mlflow ui")
     
@@ -130,6 +132,20 @@ class EmissionsTrackerMlflow:
                 y_test = args[1]
                 model_acc = model.evaluate(x_test, y_test)[1]
                 self.model_acc = model_acc
+
+        elif self.flavor == 'sklearn':
+            if len(args) == 2:
+                x_test = args[0]
+                y_test = args[1]
+                correctly_predicted = 0
+                all_data = len(x_test)
+                for i in range(all_data):
+                    predv = model.predict(x_test[i].reshape(1,-1))
+                    if predv == y_test[i]:
+                        correctly_predicted +=1
+                model_acc = correctly_predicted / all_data
+            else:
+                raise("Please provide the testing data in this form 'x_test, y_test' ")
         self.model_acc = model_acc
         client.log_metric(self.run_id,"accuracy_on_test_data", model_acc)
         return model_acc
