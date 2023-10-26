@@ -5,3 +5,5 @@ examples/emissions.csv
 examples/data
 venv
 .vscode
+mlartifacts
+mlruns
