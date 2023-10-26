@@ -125,6 +125,7 @@ class EmissionsTrackerMlflow:
             
         elif self.flavor == 'keras':
             if len(args) == 1:
+                test_data = args[0]
                 model_acc = model.evaluate(test_data)[1]
                 self.model_acc = model_acc
             else:
@@ -170,7 +171,7 @@ class EmissionsTrackerMlflow:
     
 
 
-    def emission_per_10_inferences(self, model, test_data):
+    def emissions_per_10_inferences(self, model, test_data):
         client = MlflowClient(tracking_uri=self.experiment_tracking_params['tracking_uri'])
         # For pytorch  
         if self.flavor == 'pytorch':
@@ -178,14 +179,22 @@ class EmissionsTrackerMlflow:
             for i in range(10):
                 self.predict_image(test_data[i][0], model)
             emissions_per_10 = self.emissions_tracker.stop()
-            client.log_metric(self.run_id, "emissions_per_10_predictions", emissions_per_10 * 1000)
 
        # For keras models assuming the batch size of the data is 1
         elif self.flavor == 'keras':
             self.emissions_tracker.start()
-            model.predict(test_data.take(10))
+            for i in range(10):
+                model.predict(test_data[i])
             emissions_per_10 = self.emissions_tracker.stop()
-            client.log_metric(self.run_id, "emissions_per_10_predictions", emissions_per_10 * 1000)
+            
+
+        elif self.flavor == 'sklearn' :
+            self.emissions_tracker.start()
+            model.predict(test_data[:10])
+            emissions_per_10 = self.emissions_tracker.stop()
+        client.log_metric(self.run_id, "emissions_per_10_predictions", emissions_per_10 * 1000)
+
+        
 
     
     
