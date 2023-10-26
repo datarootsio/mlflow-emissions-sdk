@@ -27,26 +27,23 @@ To log your emissions you need to provide the tracker with the uri and the name 
 
 ```python
 from pprint import pprint
-
 import numpy as np
 from sklearn.linear_model import LinearRegression
-
 from mlflow_emissions_sdk.experiment_tracking_training import EmissionsTrackerMlflow
 
 
-
-
+# Create a dictionary 
 tracker_info = {
     "tracking_uri" : "http://127.0.0.1:5000",
     "experiment_name": "test_name",
     "run_name": "run_name",
     "flavor" : "sklearn"
 }
-# prepare training data
+# Prepare training data
 X = np.array([[1, 1], [1, 2], [2, 2], [2, 3]])
 y = np.dot(X, np.array([1, 2])) + 3
 
-# train a model
+# Pick a model
 model = LinearRegression()
 
 # Instatiates the tracker
@@ -56,6 +53,7 @@ runner.read_params(tracker_info)
 # Starts the emissions tracking
 runner.start_training_job()
 
+# Training the model
 history = model.fit(X, y)
 
 # Ends the tracking
