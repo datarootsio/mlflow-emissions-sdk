@@ -8,7 +8,7 @@ requirements = requirements_path.read_text().split("\n") if requirements_path.ex
 # run the installation of our mlflow_emissions_sdk
 setup(
     name='mlflow_emissions_sdk',
-    version='0.12',
+    version='0.13',
     packages=['mlflow_emissions_sdk'],
     description='tracks carbon emissions and logs it to mlfow',
     install_requires=requirements,
