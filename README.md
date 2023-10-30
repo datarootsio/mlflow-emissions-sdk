@@ -1,3 +1,10 @@
+[![maintained by dataroots](https://img.shields.io/badge/maintained%20by-dataroots-%2300b189)](https://dataroots.io)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/datarootsio/mlflow-emissions-sdk?label=version)
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-360/)
+![love](https://img.shields.io/badge/made_with-%E2%9D%A4%EF%B8%8F-blue)
+
+![logo-dtr](https://user-images.githubusercontent.com/90327481/138892946-69b5f688-ff79-4b07-8864-44278b1695ca.png)
+
 # mlflow_emissions_sdk
 
 This package logs the carbon emissions of machine learning models.
@@ -63,4 +70,15 @@ runner.end_training_job()
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+This project is licensed under the [MIT](https://choosealicense.com/licenses/mit/) License. You are free to use, modify, and distribute this software as per the terms of the license. If you find this project helpful, please consider giving it a star on GitHub.
+
+## Acknowledgements
+A special thanks to [Emmanuel](https://www.linkedin.com/in/emmanuelmenvouta/) for his supervision throughout this project. 
+
+## Contact
+- ali.al-gburi@dataroots.io
+- ramiro@dataroots.io
+- martijn@dataroots.io
+- glenn.donghi@dataroots.io
+
+
