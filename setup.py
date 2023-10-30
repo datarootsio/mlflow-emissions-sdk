@@ -12,7 +12,7 @@ requirements = (
 setup(
     name="mlflow_emissions_sdk",
     version="0.14",
-    packages=["mlflow_emissions_sdk"],
+    packages=["mlflow_emissions_sdk", "utils"],
     description="tracks carbon emissions and logs it to mlfow",
     install_requires=requirements,
     license="MIT",
