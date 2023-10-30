@@ -1,3 +1,5 @@
+[![maintained by dataroots](https://img.shields.io/badge/maintained%20by-dataroots-%2300b189)](https://dataroots.io)
+
 ![logo-dtr](https://user-images.githubusercontent.com/90327481/138892946-69b5f688-ff79-4b07-8864-44278b1695ca.png)
 
 # mlflow_emissions_sdk
