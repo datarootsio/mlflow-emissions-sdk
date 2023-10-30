@@ -73,7 +73,7 @@ runner.end_training_job()
 This project is licensed under the [MIT](https://choosealicense.com/licenses/mit/) License. You are free to use, modify, and distribute this software as per the terms of the license. If you find this project helpful, please consider giving it a star on GitHub.
 
 ## Acknowledgements
-A special thanks to Emmanuel for his supervision throughout this project. 
+A special thanks to [Emmanuel](https://www.linkedin.com/in/emmanuelmenvouta/details/education/) for his supervision throughout this project. 
 
 ## Contact
 - ali.al-gburi@dataroots.io
