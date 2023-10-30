@@ -1,4 +1,7 @@
 [![maintained by dataroots](https://img.shields.io/badge/maintained%20by-dataroots-%2300b189)](https://dataroots.io)
+![love](https://img.shields.io/badge/made_with-%E2%9D%A4%EF%B8%8F-blue)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/datarootsio/mlflow-emissions-sdk?label=version)
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-360/)
 
 ![logo-dtr](https://user-images.githubusercontent.com/90327481/138892946-69b5f688-ff79-4b07-8864-44278b1695ca.png)
 
