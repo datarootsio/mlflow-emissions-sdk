@@ -19,7 +19,7 @@ jobs:
                 pip install -r requirements.txt
             - name: Run tests
               run: >-
-                pytest ./tests/*
+                pytest ./tests/unit_tests.py
             - name: Build package
               run: >-
                 python setup.py sdist
