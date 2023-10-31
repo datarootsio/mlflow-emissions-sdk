@@ -21,9 +21,10 @@ def verify_tracker_uri_exists(tracker_uri: str):
     try:
         response_code = urllib.request.urlopen(tracker_uri).getcode()
         if response_code != 200:
-            print("You do not have access to the tracking uri")
+            return "You do not have access to the tracking uri"
+        return "Connected"
     except Exception:
-        print("Tracking uri is unreachable")
+        return "Tracking uri is unreachable"
 
 
 def verify_flavor_exists(flavor):
@@ -31,7 +32,7 @@ def verify_flavor_exists(flavor):
         if flavor not in FLAVORS:
             raise ValueError(f"Flavor can only be one of these values: {FLAVORS}")
     except ValueError as e:
-        print(e)
+        print(e.args[0])
 
 
 def verify_emission_tracker_is_instantiated(emissions_tracker):

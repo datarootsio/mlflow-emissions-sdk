@@ -70,7 +70,12 @@ class EmissionsTrackerMlflow:
             )
         self.run_id = dict(run_id["info"])["run_id"]
             # starts the mlflow run
-        mlflow.start_run(self.run_id, exp_id)
+
+
+
+    def start_training_job(self):
+        verify_emission_tracker_is_instantiated(self.emissions_tracker)
+        mlflow.start_run(self.run_id, self.exp_id)
 
             # specific for keras, autologs the model params and some metrics
         if self.flavor == "keras":
@@ -79,10 +84,6 @@ class EmissionsTrackerMlflow:
             mlflow.pytorch.autolog()
         elif self.flavor == "sklearn":
             mlflow.sklearn.autolog()
-
-
-    def start_training_job(self):
-        verify_emission_tracker_is_instantiated(self.emissions_tracker)
         self.emissions_tracker.start()
 
     def get_default_device(self) -> None:
@@ -167,7 +168,7 @@ class EmissionsTrackerMlflow:
                         correctly_predicted += 1
                 model_acc = correctly_predicted / all_data
             else:
-                raise ("Please provide the testing data in this form 'x_test, y_test' ")
+                raise ("Please provide the testing data in this form 'x_test, y_test'")
         self.model_acc = model_acc
         client.log_metric(self.run_id, "accuracy_on_test_data", model_acc)
         return model_acc
