@@ -3,7 +3,7 @@ import mlflow.keras
 import torch
 from codecarbon import EmissionsTracker
 from mlflow import MlflowClient
-from utils import (verify_emission_tracker_is_instantiated,
+from mlflow_emissions_sdk.utils import (verify_emission_tracker_is_instantiated,
                    verify_flavor_exists, verify_tracker_info,
                    verify_tracker_uri_exists)
 

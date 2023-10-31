@@ -11,7 +11,7 @@ requirements = (
 # run the installation of our mlflow_emissions_sdk
 setup(
     name="mlflow_emissions_sdk",
-    version="0.16",
+    version="0.16.1",
     packages=["mlflow_emissions_sdk"],
     description="tracks carbon emissions and logs it to mlfow",
     install_requires=requirements,
