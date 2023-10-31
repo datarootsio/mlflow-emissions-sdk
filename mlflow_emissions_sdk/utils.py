@@ -1,4 +1,3 @@
-"""
 import urllib.request
 
 FLAVORS = ["sklearn", "keras", "pytorch"]
@@ -44,7 +43,3 @@ def verify_emission_tracker_is_instantiated(emissions_tracker):
 
     except Exception as e:
         print(e)
-
-
-verify_flavor_exists("http://127.0.0.1:5000")
-"""
