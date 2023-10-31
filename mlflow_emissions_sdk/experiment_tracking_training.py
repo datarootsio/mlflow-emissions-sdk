@@ -46,41 +46,40 @@ class EmissionsTrackerMlflow:
         self.flavor = experiment_tracking_params["flavor"]
         verify_flavor_exists(self.flavor)
 
-        try:
+
 
             # Creates a reference to the mlflow client
-            client = MlflowClient(
-                tracking_uri=self.experiment_tracking_params["tracking_uri"]
+        client = MlflowClient(
+                tracking_uri=self.tracking_uri
             )
             # Sets the tracking uri of the mlflow
-            mlflow.set_tracking_uri(self.experiment_tracking_params["tracking_uri"])
+        mlflow.set_tracking_uri(self.tracking_uri)
             # Looks for the experiment with the given name,
             # creates a new one if none are found
-            exp_id = dict(
+        exp_id = dict(
                 mlflow.set_experiment(
-                    self.experiment_tracking_params["experiment_name"]
+                    self.experiment_name
                 )
             )["experiment_id"]
-            self.exp_id = exp_id
+        self.exp_id = exp_id
             # creates a run with the given name and save the run id
-            run_id = dict(
+        run_id = dict(
                 client.create_run(
-                    exp_id, run_name=self.experiment_tracking_params["run_name"]
+                    exp_id, run_name=self.run_name
                 )
             )
-            self.run_id = dict(run_id["info"])["run_id"]
+        self.run_id = dict(run_id["info"])["run_id"]
             # starts the mlflow run
-            mlflow.start_run(self.run_id, exp_id)
+        mlflow.start_run(self.run_id, exp_id)
 
             # specific for keras, autologs the model params and some metrics
-            if self.flavor == "keras":
-                mlflow.keras.autolog()
-            elif self.flavor == "pytorch":
-                mlflow.pytorch.autolog()
-            elif self.flavor == "sklearn":
-                mlflow.sklearn.autolog()
-        except Exception:
-            print("Please refer to a running instance of mlflow ui")
+        if self.flavor == "keras":
+            mlflow.keras.autolog()
+        elif self.flavor == "pytorch":
+            mlflow.pytorch.autolog()
+        elif self.flavor == "sklearn":
+            mlflow.sklearn.autolog()
+
 
     def start_training_job(self):
         verify_emission_tracker_is_instantiated(self.emissions_tracker)
@@ -112,7 +111,7 @@ class EmissionsTrackerMlflow:
 
     def end_training_job(self):
         client = MlflowClient(
-            tracking_uri=self.experiment_tracking_params["tracking_uri"]
+            tracking_uri=self.tracking_uri
         )
         emissions = self.emissions_tracker.stop()
 
@@ -131,7 +130,7 @@ class EmissionsTrackerMlflow:
         """
 
         client = MlflowClient(
-            tracking_uri=self.experiment_tracking_params["tracking_uri"]
+            tracking_uri=self.tracking_uri
         )
         model_acc = 0
         #
@@ -175,7 +174,7 @@ class EmissionsTrackerMlflow:
 
     def accuracy_per_emission(self, model, *args):
         client = MlflowClient(
-            tracking_uri=self.experiment_tracking_params["tracking_uri"]
+            tracking_uri=self.tracking_uri
         )
         if len(args) == 2:
             x_test = args[0]
@@ -193,7 +192,7 @@ class EmissionsTrackerMlflow:
 
     def emissions_per_10_inferences(self, model, test_data):
         client = MlflowClient(
-            tracking_uri=self.experiment_tracking_params["tracking_uri"]
+            tracking_uri=self.tracking_uri
         )
         # For pytorch
         if self.flavor == "pytorch":
